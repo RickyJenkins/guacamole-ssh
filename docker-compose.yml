@@ -1,0 +1,25 @@
+https-portal:
+ image: steveltn/https-portal
+ ports:
+  - '80:80'
+  - '443:443'
+ links:
+  - guacamole
+ restart: always
+ environment:
+   DOMAINS: 'mydocker.psi-it.com -> http://guacamole:8080'
+   WEBSOCKET: 'true'
+   # PRODUCTION: 'true'
+   STAGE: local
+
+guacamole:
+ image: mattgruter/guacamole-webserver
+ links:
+  - guacd
+  - db
+
+guacd:
+ build: ./guacdssh
+
+db:
+ image: mattgruter/guacamole-db
